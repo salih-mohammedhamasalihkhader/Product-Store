@@ -4,11 +4,10 @@ import { routeProduct } from "./Route/product.route.js";
 import { connectDB } from "./Config/db.js";
 import cors from "cors";
 
-app.use(cors());
-
 dotenv.config();
 
 const app = express();
+app.use(cors());
 
 app.get("/", (_, res) => {
   res.send("Hello from the backend server!");
@@ -16,6 +15,8 @@ app.get("/", (_, res) => {
 
 app.use(express.json());
 app.use("/api/products", routeProduct);
+
+const PORT = process.env.SERVER_PORT || 5000;
 
 connectDB().then(() => {
   app.listen(process.env.SERVER_PORT, () => {

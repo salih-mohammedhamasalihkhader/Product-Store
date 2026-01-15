@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { ProductStore } from "../Model/productstore.model.js";
 
 export async function GetAllProducts(_, res) {
@@ -79,12 +80,14 @@ export async function UpdateProduct(req, res) {
       },
       { new: true }
     );
-    if (!updateProduct) {
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({
         success: false,
-        message: "Product not found",
+        message: "Invalid product ID",
       });
     }
+
     if (!name || !price || !imageURL) {
       return res.status(400).json({
         success: false,
